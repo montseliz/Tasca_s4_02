@@ -19,7 +19,7 @@ public class FruitDto {
     @NotBlank
     private String name;
 
-    @Min(0)
+    @Min(1)
     private int quantityKg;
 
 }
