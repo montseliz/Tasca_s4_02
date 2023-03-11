@@ -15,11 +15,10 @@ repositories {
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-web")
-	implementation("org.json:org.json:chargebee-1.0")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("com.mysql:mysql-connector-j")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	implementation("org.hibernate.validator:hibernate-validator:6.1.2.Final")
+	implementation("javax.validation:validation-api:2.0.1.Final")
 	implementation("org.json:json:20220320")
 }
 

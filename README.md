@@ -160,5 +160,5 @@ Has de fer el mateix que al nivell 1, però persistint les dades a MongoDB.
 
 ### Recursos utilitzats
 
-- 
-- 
+- https://www.bezkoder.com/spring-boot-mongodb-crud/
+- https://www.bezkoder.com/spring-boot-restcontrolleradvice/

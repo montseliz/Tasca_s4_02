@@ -1,7 +1,7 @@
 package cat.itacademy.barcelonactiva.liz.montse.s04.t02.n02.model.dto;
 
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 
 /**
  * Objecte de transferència de dades entre el client i el servidor.
