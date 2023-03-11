@@ -54,7 +54,7 @@ public class FruitServices {
             return new ResponseEntity<>(new Message("The name is required."), HttpStatus.BAD_REQUEST);
         }
 
-        if (fruitDto.getQuantityKg() < 0) {
+        if (fruitDto.getQuantityKg() <= 0) {
             return new ResponseEntity<>(new Message("Quantity must be greater than 0."), HttpStatus.BAD_REQUEST);
         }
 
