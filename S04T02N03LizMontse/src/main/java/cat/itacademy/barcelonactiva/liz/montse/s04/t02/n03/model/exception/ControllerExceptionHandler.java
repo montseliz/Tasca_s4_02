@@ -1,6 +1,8 @@
 package cat.itacademy.barcelonactiva.liz.montse.s04.t02.n03.model.exception;
 
+import cat.itacademy.barcelonactiva.liz.montse.s04.t02.n03.model.dto.Message;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -13,16 +15,16 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler(FruitNotFoundException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
-    public ErrorMessage fruitNotFoundExceptionHandler(FruitNotFoundException exception, WebRequest request) {
+    public ResponseEntity<Message> fruitNotFoundExceptionHandler(FruitNotFoundException exception, WebRequest request) {
 
-        return new ErrorMessage(HttpStatus.NOT_FOUND.value(), new Date(), exception.getMessage(), request.getDescription(false));
+        return new ResponseEntity<>(new Message(HttpStatus.NOT_FOUND.value(), new Date(), exception.getMessage(), request.getDescription(false)), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(FruitValidationException.class)
-    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorMessage fruitValidationExceptionHandler(FruitValidationException exception, WebRequest request) {
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public ResponseEntity<Message> fruitValidationExceptionHandler(FruitValidationException exception, WebRequest request) {
 
-        return new ErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR.value(), new Date(), exception.getMessage(), request.getDescription(false));
+        return new ResponseEntity<>(new Message(HttpStatus.BAD_REQUEST.value(), new Date(), exception.getMessage(), request.getDescription(false)), HttpStatus.BAD_REQUEST);
     }
 
 }

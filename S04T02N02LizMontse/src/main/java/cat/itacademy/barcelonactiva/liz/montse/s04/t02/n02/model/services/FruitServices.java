@@ -42,7 +42,7 @@ public class FruitServices {
         if (fruitRepository.existsById(id)) {
             return new ResponseEntity<>(new Message("Fruit id validated successfully."), HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(new Message("The id entered does not exist."), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new Message("ERROR. The id entered does not exist."), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -50,14 +50,13 @@ public class FruitServices {
      * Mètode per validar les dades introduïdes (name i quantityKg) de la fruita en els mètodes del RestController.
      */
     public ResponseEntity<Message> validateFruitDto(FruitDto fruitDto) {
+
         if (StringUtils.isBlank(fruitDto.getName())) {
-            return new ResponseEntity<>(new Message("The name is required."), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new Message("ERROR. The name is required."), HttpStatus.BAD_REQUEST);
         }
-
         if (fruitDto.getQuantityKg() <= 0) {
-            return new ResponseEntity<>(new Message("Quantity must be greater than 0."), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new Message("ERROR. Quantity must be greater than 0."), HttpStatus.BAD_REQUEST);
         }
-
         return new ResponseEntity<>(new Message("Fruit validated successfully."), HttpStatus.OK);
     }
 
@@ -73,14 +72,15 @@ public class FruitServices {
      * Mètode per encapsular la lògica d'actualitzar una fruita en el mètode updateFruit del controlador.
      */
     public Fruit updateFruitById(int id, FruitDto fruitDto) {
-        Fruit fruitFromDb = fruitRepository.findById(id).orElseThrow(() ->  new FruitNotFoundException("Fruit not found."));
+        Fruit fruitFromDb = fruitRepository.findById(id).get();
+        ResponseEntity<Message> validationResult = validateFruitDto(fruitDto);
 
-        fruitFromDb.setName(fruitDto.getName());
-        fruitFromDb.setQuantityKg(fruitDto.getQuantityKg());
-
-        return fruitRepository.save(fruitFromDb);
+        if (validationResult.getStatusCode() == HttpStatus.OK) {
+            fruitFromDb.setName(fruitDto.getName());
+            fruitFromDb.setQuantityKg(fruitDto.getQuantityKg());
+            fruitRepository.save(fruitFromDb);
+        }
+        return fruitFromDb;
     }
-
-
 
 }

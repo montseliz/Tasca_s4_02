@@ -35,20 +35,16 @@ public class FruitController {
 
     @PutMapping("/update/{id}")
     public ResponseEntity<Message> updateFruit(@PathVariable("id") int id, @RequestBody FruitDto fruitDto) {
-        ResponseEntity<Message> validationResult = fruitServices.validateFruitDto(fruitDto);
         ResponseEntity<Message> checkId = fruitServices.validateFruitId(id);
 
         if (checkId.getStatusCode() == HttpStatus.OK) {
-            if (validationResult.getStatusCode() == HttpStatus.OK) {
-                fruitServices.updateFruitById(id, fruitDto);
-                return new ResponseEntity<>(new Message("Fruit updated."), HttpStatus.OK);
-            } else {
-                return validationResult;
-            }
+            fruitServices.updateFruitById(id, fruitDto);
+            return new ResponseEntity<>(new Message("Fruit updated."), HttpStatus.OK);
         } else {
             return checkId;
         }
     }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Message> deleteFruit(@PathVariable("id") int id) {
         ResponseEntity<Message> checkId = fruitServices.validateFruitId(id);

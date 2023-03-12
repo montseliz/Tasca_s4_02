@@ -26,7 +26,7 @@ public class FruitController {
     private FruitServices fruitServices;
 
     @PostMapping("/add")
-    public ResponseEntity<?> addFruit(@RequestBody FruitDto fruitDto, WebRequest request) {
+    public ResponseEntity<Message> addFruit(@RequestBody FruitDto fruitDto, WebRequest request) {
         ResponseEntity<Message> validationResult = fruitServices.validateFruitDto(fruitDto, request);
 
         if (validationResult.getStatusCode() == HttpStatus.OK) {
@@ -40,16 +40,11 @@ public class FruitController {
 
     @PutMapping("/update/{id}")
     public ResponseEntity<Message> updateFruit(@PathVariable("id") ObjectId id, @RequestBody FruitDto fruitDto, WebRequest request) {
-        ResponseEntity<Message> validationResult = fruitServices.validateFruitDto(fruitDto, request);
         ResponseEntity<Message> checkId = fruitServices.validateFruitId(id, request);
 
         if (checkId.getStatusCode() == HttpStatus.OK) {
-            if (validationResult.getStatusCode() == HttpStatus.OK) {
-                fruitServices.updateFruitById(id, fruitDto);
-                return new ResponseEntity<>(new Message(HttpStatus.OK.value(), new Date(),"Fruit updated correctly.", request.getDescription(false)), HttpStatus.OK);
-            } else {
-                return validationResult;
-            }
+            fruitServices.updateFruitById(id, fruitDto, request);
+            return new ResponseEntity<>(new Message(HttpStatus.OK.value(), new Date(),"Fruit updated correctly.", request.getDescription(false)), HttpStatus.OK);
         } else {
             return checkId;
         }

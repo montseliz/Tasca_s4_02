@@ -3,8 +3,8 @@ package cat.itacademy.barcelonactiva.liz.montse.s04.t02.n03.model.services;
 import cat.itacademy.barcelonactiva.liz.montse.s04.t02.n03.model.domain.Fruit;
 import cat.itacademy.barcelonactiva.liz.montse.s04.t02.n03.model.dto.FruitDto;
 import cat.itacademy.barcelonactiva.liz.montse.s04.t02.n03.model.dto.Message;
-import cat.itacademy.barcelonactiva.liz.montse.s04.t02.n03.model.exception.FruitValidationException;
 import cat.itacademy.barcelonactiva.liz.montse.s04.t02.n03.model.exception.FruitNotFoundException;
+import cat.itacademy.barcelonactiva.liz.montse.s04.t02.n03.model.exception.FruitValidationException;
 import cat.itacademy.barcelonactiva.liz.montse.s04.t02.n03.model.repository.IFruitRepository;
 import io.micrometer.common.util.StringUtils;
 import org.bson.types.ObjectId;
@@ -14,9 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.WebRequest;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Tota la lògica de l'aplicació. Per encapsular els mètodes que es necessiten per realitzar tasques
@@ -47,7 +45,7 @@ public class FruitServices {
         if (fruitRepository.existsById(id)) {
             return new ResponseEntity<>(new Message(HttpStatus.OK.value(), new Date(), "Fruit id validated successfully.", request.getDescription(false)), HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(new Message(HttpStatus.NOT_FOUND.value(), new Date(), "The id entered does not exist.", request.getDescription(false)), HttpStatus.NOT_FOUND);
+            throw new FruitNotFoundException("ERROR. The id entered does not exist.");
         }
     }
 
@@ -55,19 +53,14 @@ public class FruitServices {
      * Mètode per validar les dades introduïdes (name i quantityKg) de la fruita en els mètodes del RestController.
      */
     public ResponseEntity<Message> validateFruitDto(FruitDto fruitDto, WebRequest request) {
-       try {
-           if (StringUtils.isBlank(fruitDto.getName())) {
-               return new ResponseEntity<>(new Message(HttpStatus.BAD_REQUEST.value(), new Date(), "The name is required.", request.getDescription(false)), HttpStatus.BAD_REQUEST);
-           }
 
-           if (fruitDto.getQuantityKg() <= 0) {
-               return new ResponseEntity<>(new Message(HttpStatus.BAD_REQUEST.value(),new Date(), "Quantity must be greater than 0.", request.getDescription(false)), HttpStatus.BAD_REQUEST);
-           }
-
-           return new ResponseEntity<>(new Message(HttpStatus.OK.value(), new Date(), "Fruit validated successfully.",request.getDescription(false)), HttpStatus.OK);
-       } catch (RuntimeException e) {
-           throw new FruitValidationException("Internal Server Error. Occurred while validating fruit data.");
-       }
+        if (StringUtils.isBlank(fruitDto.getName())) {
+            throw new FruitValidationException("ERROR. The name is required.");
+        }
+        if (fruitDto.getQuantityKg() <= 0) {
+            throw new FruitValidationException("ERROR. Quantity must be greater than 0.");
+        }
+        return new ResponseEntity<>(new Message(HttpStatus.OK.value(), new Date(), "Fruit validated successfully.", request.getDescription(false)), HttpStatus.OK);
     }
 
     /**
@@ -81,15 +74,16 @@ public class FruitServices {
     /**
      * Mètode per encapsular la lògica d'actualitzar una fruita en el mètode updateFruit del controlador.
      */
-    public Fruit updateFruitById(ObjectId id, FruitDto fruitDto) {
-        Fruit fruitFromDb = fruitRepository.findById(id).orElseThrow(() ->  new FruitNotFoundException("Fruit not found."));
+    public Fruit updateFruitById(ObjectId id, FruitDto fruitDto, WebRequest request) {
+        Fruit fruitFromDb = fruitRepository.findById(id).get();
+        ResponseEntity<Message> validationResult = validateFruitDto(fruitDto, request);
 
-        fruitFromDb.setName(fruitDto.getName());
-        fruitFromDb.setQuantityKg(fruitDto.getQuantityKg());
-
-        return fruitRepository.save(fruitFromDb);
+        if (validationResult.getStatusCode() == HttpStatus.OK) {
+            fruitFromDb.setName(fruitDto.getName());
+            fruitFromDb.setQuantityKg(fruitDto.getQuantityKg());
+            fruitRepository.save(fruitFromDb);
+        }
+        return fruitFromDb;
     }
-
-
 
 }

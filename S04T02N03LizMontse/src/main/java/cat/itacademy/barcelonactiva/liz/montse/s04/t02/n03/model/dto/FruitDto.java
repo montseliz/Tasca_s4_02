@@ -4,6 +4,8 @@ import lombok.*;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Objecte de transferència de dades entre el client i el servidor.
