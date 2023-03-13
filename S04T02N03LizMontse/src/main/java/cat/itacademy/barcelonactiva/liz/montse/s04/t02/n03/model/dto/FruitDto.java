@@ -2,14 +2,14 @@ package cat.itacademy.barcelonactiva.liz.montse.s04.t02.n03.model.dto;
 
 import lombok.*;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import java.util.HashMap;
-import java.util.Map;
+//import javax.validation.constraints.Min;
+//import javax.validation.constraints.NotBlank;
+
 
 /**
  * Objecte de transferència de dades entre el client i el servidor.
  * Anotacions de la llibreria lombok, que eviten escriure codi repetitiu.
+ * Anotacions @NotBlank i @Min funcionen només quan apliquem el @Valid a la classe FruitController.
  */
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,10 +18,11 @@ import java.util.Map;
 @ToString
 public class FruitDto {
 
-    @NotBlank
+    //@NotBlank
     private String name;
 
-    @Min(1)
+
+    //@Min(1)
     private int quantityKg;
 
 }

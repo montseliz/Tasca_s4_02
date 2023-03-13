@@ -1,16 +1,12 @@
 package cat.itacademy.barcelonactiva.liz.montse.s04.t02.n02.model.dto;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-
 /**
  * Objecte de transferència de dades entre el client i el servidor.
  */
 public class FruitDto {
-    @NotBlank
+
     private String name;
 
-    @Min(1)
     private int quantityKg;
 
     public FruitDto() {
