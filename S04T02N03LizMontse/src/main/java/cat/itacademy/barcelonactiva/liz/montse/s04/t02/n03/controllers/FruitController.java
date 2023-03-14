@@ -39,7 +39,7 @@ public class FruitController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Fruit created correctly.", content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = FruitDto.class))})})
-    public ResponseEntity<Message> addFruit(@Parameter(description = "The fruit to be added.", required = true) @RequestBody FruitDto fruitDto, WebRequest request) {
+    public ResponseEntity<Message> addFruit(@Parameter(required = true) @RequestBody FruitDto fruitDto, WebRequest request) {
         ResponseEntity<Message> validationResult = fruitServices.validateFruitDto(fruitDto, request);
 
         if (validationResult.getStatusCode() == HttpStatus.OK) {
@@ -57,7 +57,7 @@ public class FruitController {
             @ApiResponse(responseCode = "200", description = "Fruit updated correctly.", content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = FruitDto.class))})})
     public ResponseEntity<Message> updateFruit(@Parameter(description = "The id of the fruit to be updated.", required = true) @PathVariable("id") ObjectId id,
-                                               @Parameter(description = "The updated fruit data.", required = true) @RequestBody FruitDto fruitDto, WebRequest request) {
+                                               @Parameter(required = true) @RequestBody FruitDto fruitDto, WebRequest request) {
         ResponseEntity<Message> checkId = fruitServices.validateFruitId(id, request);
 
         if (checkId.getStatusCode() == HttpStatus.OK) {

@@ -162,3 +162,5 @@ Has de fer el mateix que al nivell 1, però persistint les dades a MongoDB.
 
 - https://www.bezkoder.com/spring-boot-mongodb-crud/
 - https://www.bezkoder.com/spring-boot-restcontrolleradvice/
+- https://javadoc.io/doc/io.swagger.core.v3/swagger-annotations/latest/index.html
+
