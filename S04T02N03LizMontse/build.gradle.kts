@@ -23,10 +23,13 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	compileOnly("org.projectlombok:lombok")
-	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	annotationProcessor("org.projectlombok:lombok")
+	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	implementation("javax.validation:validation-api:2.0.1.Final")
+	implementation("org.springframework.boot:spring-boot-starter-validation")
+	//OPEN API AMB SWAGGER:
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.3")
+
 }
 
 tasks.withType<Test> {
