@@ -34,7 +34,7 @@ public class FruitController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Message> updateFruit(@PathVariable(required = true) int id, @RequestBody FruitDto fruitDto) {
+    public ResponseEntity<Message> updateFruit(@PathVariable int id, @RequestBody FruitDto fruitDto) {
         ResponseEntity<Message> checkId = fruitServices.validateFruitId(id);
 
         if (checkId.getStatusCode() == HttpStatus.OK) {
@@ -46,7 +46,7 @@ public class FruitController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Message> deleteFruit(@PathVariable(required = true) int id) {
+    public ResponseEntity<Message> deleteFruit(@PathVariable int id) {
         ResponseEntity<Message> checkId = fruitServices.validateFruitId(id);
 
         if (checkId.getStatusCode() == HttpStatus.OK) {
@@ -58,7 +58,7 @@ public class FruitController {
     }
 
     @GetMapping("/getOne/{id}")
-    public ResponseEntity<?> getFruitById(@PathVariable(required = true) int id) {
+    public ResponseEntity<?> getFruitById(@PathVariable int id) {
         ResponseEntity<Message> checkId = fruitServices.validateFruitId(id);
 
         if (checkId.getStatusCode() == HttpStatus.OK) {

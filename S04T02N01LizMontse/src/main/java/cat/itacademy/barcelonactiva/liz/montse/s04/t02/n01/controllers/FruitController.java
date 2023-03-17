@@ -36,7 +36,7 @@ public class FruitController {
 
     //region PUT
     @PutMapping("/update/{id}")
-    public ResponseEntity<Fruit> updateFruit(@PathVariable(required = true) int id, @RequestBody Fruit fruitToUpdate) {
+    public ResponseEntity<Fruit> updateFruit(@PathVariable int id, @RequestBody Fruit fruitToUpdate) {
         Optional<Fruit> fruitData = fruitRepository.findById(id);
 
         if (fruitData.isPresent()) {
@@ -52,7 +52,7 @@ public class FruitController {
 
     //region DELETE
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<HttpStatus> deleteFruit(@PathVariable(required = true) int id) {
+    public ResponseEntity<HttpStatus> deleteFruit(@PathVariable int id) {
         Optional<Fruit> fruitData = fruitRepository.findById(id);
         if (fruitData.isPresent()) {
             try {
@@ -69,7 +69,7 @@ public class FruitController {
 
     //region GET
     @GetMapping("/getOne/{id}")
-    public ResponseEntity<Fruit> getFruitById(@PathVariable(required = true) int id) {
+    public ResponseEntity<Fruit> getFruitById(@PathVariable int id) {
         Optional<Fruit> fruitData = fruitRepository.findById(id);
 
         if (fruitData.isPresent()) {

@@ -56,7 +56,7 @@ public class FruitController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Fruit updated correctly.", content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = FruitDto.class))})})
-    public ResponseEntity<Message> updateFruit(@Parameter(description = "The id of the fruit to be updated.") @PathVariable(required = true) ObjectId id,
+    public ResponseEntity<Message> updateFruit(@Parameter(description = "The id of the fruit to be updated.") @PathVariable ObjectId id,
                                                @RequestBody FruitDto fruitDto, WebRequest request) {
         ResponseEntity<Message> checkId = fruitServices.validateFruitId(id, request);
 
@@ -72,7 +72,7 @@ public class FruitController {
     @Operation(summary = "Delete a fruit.", description = "Deletes an existing fruit from the database.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Fruit removed successfully.", content = @Content)})
-    public ResponseEntity<Message> deleteFruit(@Parameter(description = "The id of the fruit to be removed.") @PathVariable(required = true) ObjectId id, WebRequest request) {
+    public ResponseEntity<Message> deleteFruit(@Parameter(description = "The id of the fruit to be removed.") @PathVariable ObjectId id, WebRequest request) {
         ResponseEntity<Message> checkId = fruitServices.validateFruitId(id, request);
 
         if (checkId.getStatusCode() == HttpStatus.OK) {
@@ -88,7 +88,7 @@ public class FruitController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Fruit retrieved successfully.", content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = FruitDto.class))})})
-    public ResponseEntity<?> getFruitById(@Parameter(description = "The id of the fruit to retrieve.") @PathVariable(required = true) ObjectId id, WebRequest request) {
+    public ResponseEntity<?> getFruitById(@Parameter(description = "The id of the fruit to retrieve.") @PathVariable ObjectId id, WebRequest request) {
         ResponseEntity<Message> checkId = fruitServices.validateFruitId(id, request);
 
         if (checkId.getStatusCode() == HttpStatus.OK) {
