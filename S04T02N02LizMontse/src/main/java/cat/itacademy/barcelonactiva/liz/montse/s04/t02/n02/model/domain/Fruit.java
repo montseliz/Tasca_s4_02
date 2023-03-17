@@ -20,7 +20,7 @@ public class Fruit {
     @Column (name = "quantityKg")
     private int quantityKg;
 
-    public Fruit() {
+    protected Fruit() {
     }
 
     public Fruit(String name, int quantityKg) {
